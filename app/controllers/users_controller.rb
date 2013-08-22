@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   
   def new
-#    if signed_in? then return redirect_to 
+    if signed_in? then render "sessions/new" end 
     @user=User.new
   end
   

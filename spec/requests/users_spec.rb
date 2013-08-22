@@ -39,13 +39,13 @@ describe "Users" do
     end
     
     describe "with valid information" do
-       before do 
+      before do 
         fill_in "Email", with: "example_email@example.com" 
         click_button "Send email"
-        end
+      end
        
-       it {should have_selector("div.alert.alert-success")} 
-    
+      it {should have_selector("div.alert.alert-success")} 
+           
     end
   
   end
