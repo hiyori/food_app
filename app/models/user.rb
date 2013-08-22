@@ -1,4 +1,5 @@
 class User < ActiveRecord::Base
+  has_many :orders, dependent: :destroy
   
   before_save {self.email=email.downcase}
   before_create :create_initials, :create_remember_token 

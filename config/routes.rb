@@ -1,5 +1,6 @@
 FoodApp::Application.routes.draw do
   
+  get "orders/new"
   get "restaurants/new"
   resources :sessions, only: [:create, :destroy]
   resources :users do
