@@ -1,0 +1,21 @@
+<% unless signed_in? %>
+<h1>Login</h1>
+<%= form_for @user, url: check_user_users_path do |f| %>
+
+  <%= f.label :email %>
+  <%= f.text_field :email %>
+
+  <%= f.submit "Send email"%>
+<% end %>
+</br>
+<%= render 'shared/error_messages' %>
+</br>
+<% flash.each do |key, value| %>
+  <div class="alert alert-<%= key %>"><%= value %></div>
+<% end %>
+<%else%>
+  <h1>Logged</h1>
+  <%=session[:id]%>
+  <p><%= link_to "Log out", logout_path, method: "delete" %></p>
+<%end%>
+
