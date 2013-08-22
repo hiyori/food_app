@@ -8,7 +8,6 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
-      flash[:b]=@user.remember_token
       send_email(@user)
     else
       render "new"
