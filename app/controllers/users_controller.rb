@@ -1,13 +1,13 @@
 class UsersController < ApplicationController
   
   def new
+#    if signed_in? then return redirect_to 
     @user=User.new
   end
   
   def create
     @user = User.new(user_params)
     if @user.save
-      flash[:a]="User was created"
       flash[:b]=@user.remember_token
       send_email(@user)
     else
@@ -18,7 +18,6 @@ class UsersController < ApplicationController
   def update
     remember_token = User.new_remember_token
     @u.update_attribute(:remember_token, User.encrypt(remember_token))
-    flash[:a]="User was updated"
     send_email(@u)
   end
   

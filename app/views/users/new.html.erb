@@ -1,18 +1,26 @@
 <% unless signed_in? %>
-<h1>Login</h1>
-<%= form_for @user, url: check_user_users_path do |f| %>
 
-  <%= f.label :email %>
-  <%= f.text_field :email %>
+<h1>Welcome</h1>
 
-  <%= f.submit "Send email"%>
-<% end %>
-</br>
-<%= render 'shared/error_messages' %>
-</br>
 <% flash.each do |key, value| %>
   <div class="alert alert-<%= key %>"><%= value %></div>
 <% end %>
+
+<div class="row">
+  <div class="span6 offset3">
+  <%= render 'shared/error_messages' %>
+  </br>
+  <%= form_for @user, url: check_user_users_path do |f| %>
+
+    <%= f.label "Enter your email address:" %>
+    <%= f.text_field :email %>
+
+    <%= f.submit "Send email", class: "btn btn-large btn-primary"%>
+  <% end %>
+  </div>
+</div>
+</br>
+
 <%else%>
   <h1>Logged</h1>
   <%=session[:id]%>
