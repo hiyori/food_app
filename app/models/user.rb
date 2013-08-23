@@ -1,5 +1,7 @@
 class User < ActiveRecord::Base
   has_many :orders, dependent: :destroy
+  has_many :restaurants_votes
+  has_many :restaurant_parts, through: :restaurants_votes
   
   before_save {self.email=email.downcase}
   before_create :create_initials, :create_remember_token 

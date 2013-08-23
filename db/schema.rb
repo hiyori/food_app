@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130823000125) do
+ActiveRecord::Schema.define(version: 20130823002446) do
 
   create_table "orders", force: true do |t|
     t.integer  "user_id"
@@ -36,6 +36,16 @@ ActiveRecord::Schema.define(version: 20130823000125) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "restaurants_votes", force: true do |t|
+    t.integer  "restaurant_part_id"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "restaurants_votes", ["restaurant_part_id"], name: "index_restaurants_votes_on_restaurant_part_id", using: :btree
+  add_index "restaurants_votes", ["user_id"], name: "index_restaurants_votes_on_user_id", using: :btree
 
   create_table "users", force: true do |t|
     t.string   "email"
