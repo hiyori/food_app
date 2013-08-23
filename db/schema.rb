@@ -11,10 +11,28 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130822221449) do
+ActiveRecord::Schema.define(version: 20130823000125) do
 
   create_table "orders", force: true do |t|
     t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "restaurant_parts", force: true do |t|
+    t.integer  "order_id"
+    t.integer  "restaurant_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "restaurant_parts", ["order_id"], name: "index_restaurant_parts_on_order_id", using: :btree
+  add_index "restaurant_parts", ["restaurant_id", "order_id"], name: "index_restaurant_parts_on_restaurant_id_and_order_id", unique: true, using: :btree
+  add_index "restaurant_parts", ["restaurant_id"], name: "index_restaurant_parts_on_restaurant_id", using: :btree
+
+  create_table "restaurants", force: true do |t|
+    t.string   "name"
+    t.string   "link"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
