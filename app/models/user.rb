@@ -2,14 +2,13 @@ class User < ActiveRecord::Base
   has_many :orders, dependent: :destroy
   has_many :restaurants_votes
   has_many :restaurant_parts, through: :restaurants_votes
-  
-  before_save :create_remember_token
-  before_create :create_initials, :email_to_downcase 
-   
+     
    VALID_EMAIL_REGEX = /\A[\w+\-]+\.?[\w+]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]{2,3}\z/i
   validates :email, presence: true, format: {with: VALID_EMAIL_REGEX}, uniqueness: {case_sensitive: false}
   
-  
+  before_save :create_remember_token
+  before_create :create_initials, :email_to_downcase 
+
   def User.new_remember_token
     SecureRandom.urlsafe_base64
   end

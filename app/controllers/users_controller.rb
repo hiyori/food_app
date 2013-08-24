@@ -1,20 +1,19 @@
 class UsersController < ApplicationController
   
   def new
-    if signed_in? then render "sessions/new" end 
+    if signed_in? then redirect_to create_order_path end  
     @user=User.new
   end
   
   def create
     @user = User.find_or_create_by(user_params)
     if @user.save
-      flash[:a]=@user.remember_token
       send_email(@user)
     else
       render "new"
     end
   end
-        
+    
   private
 
   def user_params

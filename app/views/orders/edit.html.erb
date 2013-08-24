@@ -1,0 +1,27 @@
+<h1>Order No. <%=@order.id%></h1>
+
+<div class="row">
+  <div class="span6 offset3">
+    <h3>Restaurants:</h3>
+    <%if @order.restaurants.count>0%>
+      <%@order.restaurants.each do |r|%>
+        <%= link_to r.name, r.link, target: "_blank" %></br>
+      <%end%>
+    <%end%>
+    </br>
+    <%if @order.restaurants.count == 0 || !params[:restaurant].nil?%>
+      <div id="visible">
+    <%else%>
+      <% if params[:restaurant].nil? %>
+        <button class="btn_mini">Add restaurant</button>
+      <%end%>
+      <div id="hidden">  
+    <%end%>   
+       <%= render 'edit'%>
+      </div>
+  </div>
+</div>
+
+
+<p><%= link_to "Log out", logout_path, method: "delete" %></p>
+

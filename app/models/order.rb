@@ -3,5 +3,4 @@ class Order < ActiveRecord::Base
   has_many :restaurant_parts, dependent: :destroy
   has_many :restaurants, through: :restaurant_parts
   
-  validates :user_id, presence: true
 end

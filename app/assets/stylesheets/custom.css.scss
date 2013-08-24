@@ -61,6 +61,14 @@ p {
 
 /* forms */
 
+#visible{
+  display: block;
+}
+
+#hidden {
+  display: none;
+}
+
 input, textarea, select, .uneditable-input {
   border: 1px solid #bbb;
   width: 100%;

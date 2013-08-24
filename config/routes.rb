@@ -1,15 +1,17 @@
 FoodApp::Application.routes.draw do
   
-  get "orders/new"
-  get "restaurants/new"
-  resources :sessions, only: [:create, :destroy]
-  resources :users do
-    collection do
-      post :check_user
+  resources :sessions
+  resources :users
+  
+  resources :orders do
+    member do
+      post :restaurant
     end
   end
   root "users#new" 
-  match '/rt/:token', to: 'sessions#new', via: 'get'
+  match '/rt/:token', to: 'orders#create_new',as:"login", via: 'get'
+  #match '/:token', to: 'sessions#log_in',as: "login", via: 'get'
+  match '/create_order', to: 'orders#create_order', via: 'get'
   match "/logout", to:"sessions#destroy", via:"delete"
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

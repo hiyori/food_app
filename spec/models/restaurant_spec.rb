@@ -1,5 +1,13 @@
 require 'spec_helper'
 
 describe Restaurant do
-  pending "add some examples to (or delete) #{__FILE__}"
+  
+  describe "link" do
+    
+    it "should add http:// when a link does not have protocol" do
+      r=Restaurant.create(name:"example", link:"www.example.com")
+      r.link.should eq("http://www.example.com")
+    end
+    
+  end
 end

@@ -1,0 +1,15 @@
+<% flash.each do |key, value| %>
+  <div class="alert alert-<%= key %>"><%= value %></div>
+<% end %>
+<h2>New restaurant</h2>  
+<%= form_for @restaurant, {url: restaurant_order_path} do |f| %>
+  <%= render 'shared/error_messages', object: f.object %>
+      
+  <%= f.label :name %>
+  <%= f.text_field :name, placeholder: "Savona" %>
+      
+  <%= f.label :link %>
+  <%= f.text_field :link, placeholder: "http://www.xyz.com" %>    
+    
+  <%= f.submit "Submit", class: "btn btn-large btn-primary"%>
+<% end %>
