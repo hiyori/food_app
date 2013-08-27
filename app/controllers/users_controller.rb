@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   
   def new
-    if signed_in? then redirect_to create_order_path end  
+    if signed_in? then redirect_to new_order_path end  
     @user=User.new
   end
   

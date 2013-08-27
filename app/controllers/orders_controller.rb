@@ -1,18 +1,11 @@
 class OrdersController < ApplicationController
    
-  def create_order
+  def new
     user=User.find(session[:id])
     order=user.orders.create!
     redirect_to edit_order_path(order)
   end
-  
-  def create_new
-    user=User.find_by(remember_token: params[:token])
-    order=user.orders.create!
-    session[:id]=user.id
-    redirect_to edit_order_path(order)
-  end
-  
+    
   def edit
     @order=Order.find(params[:id])
     if @restaurant.nil? then @restaurant=Restaurant.new end
@@ -28,6 +21,8 @@ class OrdersController < ApplicationController
       if t.nil? 
         @order.restaurants << @restaurant
         add_vote_rest
+      else
+        flash[:error]="#{@restaurant.name} is already chosen so vote for it :)"  
       end  
       redirect_to edit_order_path(@order)
     else
@@ -44,7 +39,9 @@ class OrdersController < ApplicationController
       t=@order.dishes.find_by(name: params[:dish][:name])
       if t.nil?
         @order.dishes << @dish
-        add_vote_dish 
+        add_vote_dish
+      else
+        flash[:error]="#{@dish.name} is already ordered so vote for it :)"    
       end
       redirect_to edit_order_path(@order)
     else
@@ -65,24 +62,11 @@ class OrdersController < ApplicationController
     rest_part=RestaurantPart.last
     prev_vote=find_prev_rest_vote(rest_part.order_id)
     prev_vote.destroy if !prev_vote.nil?
-    rest_part.users<< User.find(session[:id])  
-    #rescue ActiveRecord::RecordNotSaved => e
-     # r=Restaurant.last.destroy
-      #return   
+    rest_part.users<< User.find(session[:id])   
   end
+    
   
-#  def rest_votes(id)
-#    rest_list=RestaurantPart.where(order_id:id)
-#    users_list=rest_list.collect{|r| r.users}
-#    users_list.collect{|u| u[0]}
-#  end
-  
-  
-  def vote
-#    parts=RestaurantPart.where(order_id: params[:id])
-#    parts_id=parts.collect{|p| p.id}
-#    orders_votes=RestaurantsVote.where("restaurant_part_id in (?)",parts_id)
-#    previous_vote=orders_votes.find_by(user_id: session[:id])
+  def vote_restaurant
     previous_vote=find_prev_rest_vote(params[:id])
     rp=RestaurantPart.where(order_id: params[:id],restaurant_id: params[:rest])
     current_vote=RestaurantsVote.new
@@ -92,6 +76,18 @@ class OrdersController < ApplicationController
       previous_vote.destroy if !previous_vote.nil?
     end  
     redirect_to edit_order_path(params[:id])
+  end
+  
+  def vote_dish
+    prev_vote=find_prev_dish_vote(params[:id])
+    part=DishPart.where(order_id: params[:id], dish_id: params[:dish])
+    current_vote=DishVote.new
+    current_vote.user_id=session[:id]
+    current_vote.dish_part_id = part[0].id
+    if current_vote.save
+      prev_vote.destroy if !prev_vote.nil?
+    end
+    redirect_to edit_order_path(params[:id])  
   end
   
   def find_prev_rest_vote(order_id)
@@ -106,8 +102,20 @@ class OrdersController < ApplicationController
     parts=DishPart.where(order_id: order_id)
     parts_id=parts.map{|p| p.id}
     votes=DishVote.where("dish_part_id in (?)", parts_id)
-    prev_vote=votes.find_by(user_id, session[:id])
+    prev_vote=votes.find_by(user_id: session[:id])
     prev_vote
+  end
+  
+  def remove_rvote
+    prev_vote=find_prev_rest_vote(params[:id])
+    prev_vote.destroy if !prev_vote.nil?
+    redirect_to edit_order_path(params[:id])
+  end
+  
+  def remove_dvote
+    prev_vote=find_prev_dish_vote(params[:id])
+    prev_vote.destroy if !prev_vote.nil?
+    redirect_to edit_order_path(params[:id])
   end
   
   def restaurant_params

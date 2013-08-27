@@ -2,15 +2,19 @@
 
 <div class="row">
   <div class="span6 offset3"> 
+  <% flash.each do |key, value| %>
+  <div class="alert alert-<%= key %>"><%= value %></div>
+  <%flash.clear%>
+<% end %>
     <h3>Restaurants:</h3>
     <% votes=users_restaurants(@order)%>
     <%unless votes.nil?%>
       <% votes.each do |v,k|%>
         <p><%= create_link v  %>
-        <%=link_to "Vote", vote_order_path(rest: v.id), method: "post", class:"btn btn-success btn-small" %>
         <%k.each do |s|%>
           <%=s.initials+ " "%>
         <%end%>
+         <%=link_to "Vote", vote_restaurant_order_path(rest: v.id), method: "post", class:"btn btn-success btn-small" %>
         </p>  
       <%end%>
     <%end%> 
@@ -21,22 +25,32 @@
       <% if params[:restaurant].nil? %>
       <input type="button" class="btn btn-primary btn-small" value="Add restaurant" id="restButton"/>
       <%end%>
+      <%=link_to "Remove my vote", remove_rvote_order_path, method: "post", class:"btn btn-danger btn-small" %>
       <div id="hidden">  
-    <%end%>   
+    <%end%>  
+    </br> 
        <%= render 'edit_restaurant'%>
       </div>
       </br></br>
       <h3>Dishes:</h3>
-      <% dishes = @order.dishes%>
-      <%dishes.each do |d|%>
-      <p><%=d.name%></p>
-      <%end%>
+      <% votes=users_dishes(@order)%>
+      <%unless votes.nil?%>
+        <% votes.each do |v,k|%>
+          <p><%=v.name%>
+          <%k.each do |s|%>
+            <%=s.initials+ " "%>
+          <%end%>
+          <%=link_to "Vote", vote_dish_order_path(dish: v.id), method: "post", class:"btn btn-success btn-small" %>
+          </p>  
+        <%end%>
+      <%end%> 
        <%if @order.dishes.count == 0 || !params[:dish].nil?%>
       <div id="visibleDish">
     <%else%>
       <% if params[:dish].nil? %>
         <input type="button" class="btn btn-primary btn-small" value="Add dish" id="dishButton"/>
       <%end%>
+      <%=link_to "Remove my vote", remove_dvote_order_path, method: "post", class:"btn btn-danger btn-small" %>
       <div id="hiddenDish">  
     <%end%>   
        <%= render 'edit_dish'%>

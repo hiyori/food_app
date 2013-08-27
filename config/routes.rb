@@ -1,13 +1,16 @@
 FoodApp::Application.routes.draw do
   
-  resources :sessions
-  resources :users
+  resources :sessions, only: [:destroy]
+  resources :users, only: [:new, :create]
   
-  resources :orders do
+  resources :orders, only: [:new, :edit] do
     member do
       post :restaurant
-      post :vote
+      post :vote_restaurant
+      post :remove_rvote
       post :dish
+      post :vote_dish
+      post :remove_dvote
     end
   end
 
@@ -24,8 +27,7 @@ FoodApp::Application.routes.draw do
   end
   
   root "users#new" 
-  match '/rt/:token', to: 'orders#create_new',as:"login", via: 'get'
-  #match '/:token', to: 'sessions#log_in',as: "login", via: 'get'
+  match 'rt/:token', to: 'sessions#log_in',as: "login", via: 'get'
   match '/create_order', to: 'orders#create_order', via: 'get'
   match "/logout", to:"sessions#destroy", via:"delete"
   # The priority is based upon order of creation: first created -> highest priority.
