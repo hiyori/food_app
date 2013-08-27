@@ -3,9 +3,12 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 $ ->    
-  $("button.btn_mini").click (event) =>
+  $("#restButton").click (event) ->
     event.preventDefault()
-    $("#hidden").show()
+    $("#hidden").show()  
+    $("#restButton").hide()
 
-
-
+  $("#dishButton").click (event) ->
+    event.preventDefault()
+    $("#hiddenDish").show()  
+    $("#dishButton").hide()

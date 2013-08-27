@@ -7,10 +7,17 @@ FoodApp::Application.routes.draw do
     member do
       post :restaurant
       post :vote
+      post :dish
     end
   end
 
   resources :restaurants, only: [:autocomplete] do
+    collection do
+      get :autocomplete
+    end
+  end
+  
+  resources :dishes, only: [:autocomplete] do
     collection do
       get :autocomplete
     end

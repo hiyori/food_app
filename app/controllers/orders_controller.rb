@@ -1,7 +1,5 @@
 class OrdersController < ApplicationController
-
-#  autocomplete :restaurant, :name, :full => true  
-  
+   
   def create_order
     user=User.find(session[:id])
     order=user.orders.create!
@@ -18,19 +16,33 @@ class OrdersController < ApplicationController
   def edit
     @order=Order.find(params[:id])
     if @restaurant.nil? then @restaurant=Restaurant.new end
+    if @dish.nil? then @dish=Dish.new end
     @votes=votes(@order.id)
   end
   
   def restaurant
     @order=Order.find(params[:id])
-    @restaurant=Restaurant.find_or_create_by(name: params[:restaurant][:name])
-    binding.pry
-    @restaurant.update_attributes(link: params[:restaurant][:link])
+    @restaurant=Restaurant.create(restaurant_params)
+    #@restaurant.update_attributes(link: params[:restaurant][:link])
     if @restaurant.save
       @order.restaurants << @restaurant
       add_vote
       redirect_to edit_order_path(@order)
     else
+       @dish=Dish.new
+       render "edit"  
+    end  
+      edit_order_path(@order)
+  end
+  
+  def dish
+    @order=Order.find(params[:id])
+    @dish=Dish.create(name: params[:dish][:name])
+    if @dish.save
+      @order.dishes << @dish
+      redirect_to edit_order_path(@order)
+    else
+      @restaurant=Restaurant.new
        render "edit"  
     end  
       edit_order_path(@order)
@@ -40,7 +52,6 @@ class OrdersController < ApplicationController
   def add_vote
     rest_part=RestaurantPart.last
     prev_vote=find_previous_vote(rest_part.order_id)
-    binding.pry
     prev_vote.destroy if !prev_vote.nil?
     rest_part.users<< User.find(session[:id])  
     #rescue ActiveRecord::RecordNotSaved => e

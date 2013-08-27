@@ -8,7 +8,7 @@ class Restaurant < ActiveRecord::Base
   before_save :create_link
   
   def self.autocomplete(search)
-    Restaurant.where("name LIKE ?", "%#{search}%")
+    Restaurant.where("LOWER(name) LIKE ?", "%#{search}%")
   end
   
   private

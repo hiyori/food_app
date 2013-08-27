@@ -1,0 +1,12 @@
+<% flash.each do |key, value| %>
+  <div class="alert alert-<%= key %>"><%= value %></div>
+<% end %>
+<h2>New dish</h2>  
+<%= form_for @dish, {url: dish_order_path} do |f| %>
+  <%= render 'shared/error_messages', object: f.object %>
+      
+  <%= f.label :name %>
+  <%= f.text_field :name, id: "dish_magic", data: { autocomplete_dishes_path: autocomplete_dishes_url} %>
+          
+  <%= f.submit "Submit", class: "btn btn-success"%>
+<% end %>

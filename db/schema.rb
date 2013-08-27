@@ -11,7 +11,34 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130825213647) do
+ActiveRecord::Schema.define(version: 20130827064317) do
+
+  create_table "dish_parts", force: true do |t|
+    t.integer  "order_id"
+    t.integer  "dish_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "dish_parts", ["dish_id", "order_id"], name: "index_dish_parts_on_dish_id_and_order_id", unique: true, using: :btree
+  add_index "dish_parts", ["dish_id"], name: "index_dish_parts_on_dish_id", using: :btree
+  add_index "dish_parts", ["order_id"], name: "index_dish_parts_on_order_id", using: :btree
+
+  create_table "dish_votes", force: true do |t|
+    t.integer  "dish_part_id"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "dish_votes", ["dish_part_id"], name: "index_dish_votes_on_dish_part_id", using: :btree
+  add_index "dish_votes", ["user_id"], name: "index_dish_votes_on_user_id", using: :btree
+
+  create_table "dishes", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "orders", force: true do |t|
     t.integer  "user_id"

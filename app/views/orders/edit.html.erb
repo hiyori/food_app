@@ -19,11 +19,27 @@
       <div id="visible">
     <%else%>
       <% if params[:restaurant].nil? %>
-        <button class="btn_mini">Add restaurant</button>
+      <input type="button" class="btn btn-primary btn-small" value="Add restaurant" id="restButton"/>
       <%end%>
       <div id="hidden">  
     <%end%>   
-       <%= render 'edit'%>
+       <%= render 'edit_restaurant'%>
+      </div>
+      </br></br>
+      <h3>Dishes:</h3>
+      <% dishes = @order.dishes%>
+      <%dishes.each do |d|%>
+      <p><%=d.name%></p>
+      <%end%>
+       <%if @order.dishes.count == 0 || !params[:dish].nil?%>
+      <div id="visibleDish">
+    <%else%>
+      <% if params[:dish].nil? %>
+        <input type="button" class="btn btn-primary btn-small" value="Add dish" id="dishButton"/>
+      <%end%>
+      <div id="hiddenDish">  
+    <%end%>   
+       <%= render 'edit_dish'%>
       </div>
   </div>
 </div>
