@@ -6,8 +6,16 @@ FoodApp::Application.routes.draw do
   resources :orders do
     member do
       post :restaurant
+      post :vote
     end
   end
+
+  resources :restaurants, only: [:autocomplete] do
+    collection do
+      get :autocomplete
+    end
+  end
+  
   root "users#new" 
   match '/rt/:token', to: 'orders#create_new',as:"login", via: 'get'
   #match '/:token', to: 'sessions#log_in',as: "login", via: 'get'

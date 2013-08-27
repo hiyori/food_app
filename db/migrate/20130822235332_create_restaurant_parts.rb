@@ -1,8 +1,8 @@
 class CreateRestaurantParts < ActiveRecord::Migration
   def change
-    create_table :restaurant_parts do |t|
-      t.integer :order_id
-      t.integer :restaurant_id
+    create_table :restaurant_parts, id: false do |t|
+      t.integer :order_id, references: [:Order, :id]
+      t.integer :restaurant_id, references: [:Restaurant, :id]
 
       t.timestamps
     end

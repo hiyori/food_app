@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130823122526) do
+ActiveRecord::Schema.define(version: 20130825213647) do
 
   create_table "orders", force: true do |t|
     t.integer  "user_id"
@@ -46,6 +46,7 @@ ActiveRecord::Schema.define(version: 20130823122526) do
     t.datetime "updated_at"
   end
 
+  add_index "restaurants_votes", ["restaurant_part_id", "user_id"], name: "index_restaurants_votes_on_restaurant_part_id_and_user_id", unique: true, using: :btree
   add_index "restaurants_votes", ["restaurant_part_id"], name: "index_restaurants_votes_on_restaurant_part_id", using: :btree
   add_index "restaurants_votes", ["user_id"], name: "index_restaurants_votes_on_user_id", using: :btree
 

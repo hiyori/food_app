@@ -1,13 +1,19 @@
 <h1>Order No. <%=@order.id%></h1>
 
 <div class="row">
-  <div class="span6 offset3">
+  <div class="span6 offset3"> 
     <h3>Restaurants:</h3>
-    <%if @order.restaurants.count>0%>
-      <%@order.restaurants.each do |r|%>
-        <%= link_to r.name, r.link, target: "_blank" %></br>
+    <% votes=users_restaurants(@order)%>
+    <%unless votes.nil?%>
+      <% votes.each do |v,k|%>
+        <p><%= create_link v  %>
+        <%=link_to "Vote", vote_order_path(rest: v.id), method: "post"%>
+        <%k.each do |s|%>
+          <%=s.initials+ " "%>
+        <%end%>
+        </p>  
       <%end%>
-    <%end%>
+    <%end%> 
     </br>
     <%if @order.restaurants.count == 0 || !params[:restaurant].nil?%>
       <div id="visible">
