@@ -15,7 +15,7 @@
         var item;
         item = ui.item;
         if (item) {
-          return $("#email_magic").val(item.link);
+          return $("#link_magic").val(item.link);
         }
       }
     });

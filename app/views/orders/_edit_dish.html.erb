@@ -4,6 +4,7 @@
       
   <%= f.label :name %>
   <%= f.text_field :name, id: "dish_magic", data: { autocomplete_dishes_path: autocomplete_dishes_url} %>
-          
-  <%= f.submit "Submit", class: "btn btn-success"%>
+   
+  <input type="submit" id="dish_button" class="btn btn-success" value="Submit"/>      
+  <% #f.submit "Submit", class: "btn btn-success"%>
 <% end %>

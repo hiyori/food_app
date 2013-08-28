@@ -11,5 +11,5 @@ $ ->
     select: (event, ui) ->
       item = ui.item
       if item
-        $("#email_magic").val item.link
+        $("#link_magic").val item.link
 

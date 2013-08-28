@@ -6,7 +6,7 @@
   <%= f.text_field :name, id: "restaurant_magic", placeholder: "Savona", data: { autocomplete_restaurants_path: autocomplete_restaurants_url} %>
       
   <%= f.label :link %>
-  <%= f.text_field :link, id: "email_magic", placeholder: "http://www.xyz.com" %>    
-    
-  <%= f.submit "Submit", class: "btn btn-success"%>
+  <%= f.text_field :link, id: "link_magic", placeholder: "http://www.xyz.com" %>    
+  <input type="submit" id="rest_button" class="btn btn-success" value="Submit"/>   
+  <%# f.submit "Submit",name:"rest", class: "btn btn-success"%>
 <% end %>
