@@ -12,6 +12,8 @@ class OrdersController < ApplicationController
     if @dish.nil? then @dish=Dish.new end
   end
   
+  # WTF? -> RestaurantsController#create
+  # no voting!
   def restaurant
     @order=Order.find(params[:id])
     @restaurant=Restaurant.find_or_create_by(name: params[:restaurant][:name])
@@ -32,6 +34,9 @@ class OrdersController < ApplicationController
       edit_order_path(@order)
   end
   
+  # move -> MealsController#Create
+  # no voting!
+  # Add VotesCotroller with actions create and destroy to manage votings
   def dish
     @order=Order.find(params[:id])
     @dish=Dish.find_or_create_by(name: params[:dish][:name])
@@ -51,6 +56,7 @@ class OrdersController < ApplicationController
       edit_order_path(@order)
   end
 
+  # remove
   def add_vote_dish
     dish_part=DishPart.last
     prev_vote=find_prev_dish_vote(dish_part.order_id)
@@ -58,6 +64,7 @@ class OrdersController < ApplicationController
     dish_part.users << User.find(session[:id])
   end
   
+  # repove
   def add_vote_rest
     rest_part=RestaurantPart.last
     prev_vote=find_prev_rest_vote(rest_part.order_id)
@@ -66,6 +73,7 @@ class OrdersController < ApplicationController
   end
     
   
+  # remove
   def vote_restaurant
     previous_vote=find_prev_rest_vote(params[:id])
     rp=RestaurantPart.where(order_id: params[:id],restaurant_id: params[:rest])
@@ -80,7 +88,7 @@ class OrdersController < ApplicationController
     end  
     redirect_to edit_order_path(params[:id])
   end
-  
+# ...
   def vote_dish
     prev_vote=find_prev_dish_vote(params[:id])
     part=DishPart.where(order_id: params[:id], dish_id: params[:dish])
@@ -138,7 +146,7 @@ end
 
 
 
-
+# ???
 
 
 
