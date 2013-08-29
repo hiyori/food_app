@@ -2,6 +2,9 @@ class Restaurant < ActiveRecord::Base
   has_many :restaurant_parts, dependent: :destroy
   has_many :orders, through: :restaurant_parts
   
+  has_many :dish_restaurants, dependent: :destroy
+  has_many :dishes, through: :dish_restaurants
+    
   validates :name, presence: true, uniqueness: {case_sensitive: false}
   validates :link, presence: true
   

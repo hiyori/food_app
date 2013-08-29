@@ -72,6 +72,9 @@ class OrdersController < ApplicationController
     current_vote=RestaurantsVote.new
     current_vote.restaurant_part_id=rp[0].id
     current_vote.user_id=session[:id]
+    if current_vote.user_id==previous_vote.user_id && current_vote.restaurant_part_id==previous_vote.restaurant_part_id
+      return redirect_to edit_order_path(params[:id])   
+    end 
     if current_vote.save
       previous_vote.destroy if !previous_vote.nil?
     end  
@@ -84,6 +87,9 @@ class OrdersController < ApplicationController
     current_vote=DishVote.new
     current_vote.user_id=session[:id]
     current_vote.dish_part_id = part[0].id
+    if current_vote.user_id==prev_vote.user_id && current_vote.dish_part_id==prev_vote.dish_part_id
+      return redirect_to edit_order_path(params[:id])  
+    end   
     if current_vote.save
       prev_vote.destroy if !prev_vote.nil?
     end

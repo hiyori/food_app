@@ -4,12 +4,13 @@ describe "Orders" do
   
   subject {page}
   let (:user1){ user1=FactoryGirl.create(:user)}
-  
-  before do
-    sign_in user1    
-  end
+
   
   describe "voting" do
+    
+    before do
+      sign_in user1    
+    end
     
     it "should add current user vote to the restaurant added by other user" do
       add_restaurant("example", "example.pl")
@@ -34,11 +35,19 @@ describe "Orders" do
     end
   end
   
-=begin
-  describe "autocomplete",js: true do
-    it "should autocomplete dish name" do
-      binding.pry
-      add_dish("dish")
+
+=begin  
+describe "autocomplete" do
+        
+    it "should autocomplete dish name", js: true do
+      user=User.create(email: "sample@user.com")
+      @driver = Selenium::WebDriver.for(:firefox)
+      @driver.navigate.to "http://localhost:3000/"
+      @driver.find_element(name: "user_email").val(user.email)
+      sign_in user, no_capybara: true
+      page.has_content?('New dish') 
+      fill_in "dish_magic", with: "dish"
+      click_button "dish_button"
       s="ui-autocomplete ui-menu ui-widget ui-widget-content ui-corner-all a:contains(\"dish\")"
       fill_in "dish_magic", with: "d"
       sleep(3)
@@ -46,7 +55,7 @@ describe "Orders" do
   trigger(\"mouseenter\").click();"
     end
   end #autocomplete
-=end  
+=end 
 end
 
 
